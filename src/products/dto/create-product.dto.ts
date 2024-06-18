@@ -1,15 +1,37 @@
+import { IsString,IsNotEmpty,IsNumber,IsUrl, IsDate, IsEnum } from 'class-validator';
+
 export class CreateProductDto {
+  @IsString()
+  @IsNotEmpty()
   name: string;
+
+  @IsNumber()
+  @IsNotEmpty()
   price: number;
+
+  @IsString()
+  @IsNotEmpty()
   description: string;
+
+  @IsUrl()
+  @IsNotEmpty()
   image: string;
+
+  @IsNumber()
+  @IsNotEmpty()
   stock: number;
+
+  @IsEnum(["electronics", "clothing", "food", "books", "furniture"], { message: "category must be either electronics, clothing, food, books, or furniture" })
   category: string;
+
+  @IsString()
   brand: string;
-  rating: number;
-  numReviews: number;
-  countInStock: number;
-  user: string;
-  createdAt: Date;
-  updatedAt: Date;
+
+  // @IsDate()
+  // @IsNotEmpty()
+  // createdAt: Date;
+
+  // @IsDate()
+  // @IsNotEmpty()
+  // updatedAt: Date;
 }

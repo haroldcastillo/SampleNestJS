@@ -16,18 +16,10 @@ export class Products {
   category: string;
   @Prop({required: true})
   brand: string;
-  @Prop({required: true})
-  rating: number;
-  @Prop({required: true})
-  numReviews: number;
-  @Prop({required: true})
-  countInStock: number;
-  @Prop({required: true})
-  user: string;
-  @Prop({required: true})
-  createdAt: Date;
-  @Prop({required: true})
-  updatedAt: Date;
+  // @Prop({required: true})
+  // createdAt: Date;
+  // @Prop({required: true})
+  // updatedAt: Date;
 }
 
 export const ProductsSchema = SchemaFactory.createForClass(Products);
