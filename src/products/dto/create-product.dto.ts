@@ -21,10 +21,12 @@ export class CreateProductDto {
   @IsNotEmpty()
   stock: number;
 
+  @IsNotEmpty()
   @IsEnum(["electronics", "clothing", "food", "books", "furniture"], { message: "category must be either electronics, clothing, food, books, or furniture" })
   category: string;
 
   @IsString()
+  @IsNotEmpty()
   brand: string;
 
   // @IsDate()

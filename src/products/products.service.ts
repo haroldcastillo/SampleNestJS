@@ -17,15 +17,15 @@ export class ProductsService {
     return this.productModel.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.productModel.findById(id);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
+  update(id: string, updateProductDto: UpdateProductDto) {
     return this.productModel.findByIdAndUpdate(id,updateProductDto,{new:true});
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.productModel.findByIdAndDelete(id);
   }
 }

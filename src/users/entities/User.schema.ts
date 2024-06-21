@@ -3,14 +3,20 @@ import { Url } from "url";
 
 @Schema()
 export class User {
-  @Prop({required: true, unique: true})
-  name: string;
-  @Prop({required: true})
-  email: string;
-  @Prop({required: true})
-  role: "admin" | "user";
-  @Prop({required: false})
-  image: string;
+  @Prop({required:true,unique:false})
+  username:string;
+  @Prop({required:true,unique:false})
+  password:string;
+  @Prop({required:true,unique:false})
+  email:string;
+  @Prop({required:true,unique:false})
+  role:string;
+  @Prop({required:true,unique:false})
+  image:string;
+  @Prop({required:false,unique:false})
+  createdAt:Date;
+  // @Prop({required:true,unique:false})
+  // updatedAt:Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

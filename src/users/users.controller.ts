@@ -20,7 +20,7 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     try {
-      return this.usersService.findOne(id);
+      return this.usersService.findOne(id,"id");
     }catch(e){
       throw new NotFoundException();
     }
