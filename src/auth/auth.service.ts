@@ -9,10 +9,14 @@ export class AuthService {
 
   async validateUser({ email, password }: { email: string, password: string }): Promise<any> {
     const user = await this.userService.findOne(email, "email");
+    if(!user) return null;
     if (!user || !comparePassword(password, user.password)) {
       throw new UnauthorizedException('Invalid Password');
     }
-    const { password: _, ...result } = user;
-    return this.jwtService.sign(result);
+    return this.jwtService.sign({
+      _id:user._id,
+      email:user.email,
+      username:user.name
+    });
   }
 }

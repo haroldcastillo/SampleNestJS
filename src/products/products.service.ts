@@ -9,7 +9,7 @@ export class ProductsService {
   constructor( @InjectModel(Products.name) private productModel: Model<Products>){}
 
   create(createProductDto: CreateProductDto) {
-    const newProduct = new this.productModel({...createProductDto});
+    const newProduct = new this.productModel({...createProductDto,createdAt:Date.now()});
     return newProduct.save();
   }
 

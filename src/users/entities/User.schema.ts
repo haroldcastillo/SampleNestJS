@@ -4,7 +4,7 @@ import { Url } from "url";
 @Schema()
 export class User {
   @Prop({required:true,unique:false})
-  username:string;
+  name:string;
   @Prop({required:true,unique:false})
   password:string;
   @Prop({required:true,unique:false})
