@@ -7,7 +7,7 @@ export class User {
   name:string;
   @Prop({required:true,unique:false})
   password:string;
-  @Prop({required:true,unique:false})
+  @Prop({required:true,unique:true})
   email:string;
   @Prop({required:true,unique:false})
   role:string;

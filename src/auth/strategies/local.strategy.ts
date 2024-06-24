@@ -11,10 +11,13 @@ export class LocalStrategy extends PassportStrategy(Strategy){
       passwordField: 'password', // specify the password field
     });
   }
-  validate(email:string,password:string){
-    const user = this.authservice.validateUser({ email, password });
-    
+  async validate(email:string,password:string){
+    const user = await this.authservice.validateUser({ email, password });
     if(!user)throw new UnauthorizedException('User not found');
-    return user;
+    return {
+      email: user.email,
+      id: user._id,
+      role: user.role
+    };
   }
 }
