@@ -13,6 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy){
   }
   validate(email:string,password:string){
     const user = this.authservice.validateUser({ email, password });
+    
     if(!user)throw new UnauthorizedException('User not found');
     return user;
   }
