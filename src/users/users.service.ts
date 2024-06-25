@@ -16,7 +16,8 @@ export class UsersService {
     return newUser.save();
   }
   findAll() {
-    return this.userModel.find();
+    const users = this.userModel.find({}, { password: 0 });
+    return users;
   }
   findOne(payload: string,type:string) {
     switch(type){

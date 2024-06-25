@@ -15,7 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Move the super call to the beginning of the constructor
   }
   async validate(payload: any) {
-    console.log(payload); 
     return payload;
   }
 }
