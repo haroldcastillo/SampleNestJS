@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards,Get, Req,Res} from '@nestjs/common';
+import { Controller, Post, UseGuards,Get, Req,Res,UnauthorizedException} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { Request ,Response } from 'express';
@@ -26,10 +26,9 @@ export class AuthController {
     // Set the refresh token in an HTTP-only cookie
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true, // Should be set to true in production (use HTTPS)
-      sameSite: 'strict', // Helps with CSRF protection
-      path: '/',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // For example, 7 days
+      secure: false, // Set to true in production with HTTPS
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     
     return {
@@ -49,4 +48,12 @@ export class AuthController {
     const refreshToken = req.cookies;
     console.log(refreshToken);
   }
+
+
+  @Post('refresh-token')
+  async refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const refreshToken = req.cookies['refreshToken'];
+    console.log(refreshToken)
+  }
+
 }

@@ -26,11 +26,19 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
   
-  async validateRefreshToken(refreshToken: string) {
+  async refreshAccessToken(refreshToken: string) {
     try {
-      return this.jwtService.verify(refreshToken);
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      });
+
+      // Optionally, you can re-fetch user data here and include it in the payload
+      const { username, email, role } = payload;
+
+      const newAccessToken = this.generateAccessToken({ username, email, role });
+      return { accessToken: newAccessToken };
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException('Invalid refresh token');
     }
   }
 }
