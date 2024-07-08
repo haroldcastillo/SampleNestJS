@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { Request ,Response } from 'express';
 import { JwtAuthGuard } from './guards/Jwt.guard';
-
+import {RefreshTokenGuard} from './guards/refreshToken.guard';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -32,7 +32,7 @@ export class AuthController {
   }
 
   @Get('status')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard,RefreshTokenGuard)
   status(@Req() req: Request){
     return req.user
   }

@@ -3,15 +3,14 @@ import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt') {
+export class RefreshTokenGuard extends AuthGuard('refresh-token') {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-
     // Check for the presence of the refresh token in cookies
     if (!request.cookies['refreshToken']) {
       throw new UnauthorizedException('Refresh token is missing');
     }
-    console.log('JwtAuthGuard guard');
+
     return super.canActivate(context);
   }
 }

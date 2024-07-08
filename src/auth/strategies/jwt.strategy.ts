@@ -16,9 +16,10 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate( payload: any,req: Request) {
+    console.log('JwtStrategy strategy');
     const notExpired = Date.now() < payload.exp * 1000;
     if(notExpired){
-      console.log('May Proceed')
+      console.log('May Proceed',payload)
       return payload
     }
     else{
