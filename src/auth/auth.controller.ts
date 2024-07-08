@@ -1,9 +1,8 @@
-import { Controller, Post, UseGuards,Get, Req,Res,UnauthorizedException} from '@nestjs/common';
+import { Controller, Post, UseGuards,Get, Req,Res} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { Request ,Response } from 'express';
 import { JwtAuthGuard } from './guards/Jwt.guard';
-
 
 @Controller('auth')
 export class AuthController {
@@ -11,16 +10,14 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(LocalGuard)
-  login(@Req() req: Request, @Res({ passthrough: true }) response: Response) {
-
-    const { username, email,role } = req.user as { username: string, email: string ,role:string};
-
-
-    const refreshToken = this.authService.generateRefreshToken(
-      { username, email,role }
+  async login(@Req() req: Request, @Res({ passthrough: true }) response: Response) {
+    const { name, email,role } = req.user as { name: string, email: string ,role:string};
+    
+    const refreshToken = await this.authService.generateRefreshToken(
+      {name, email, role}
     );
     const accessToken = this.authService.generateAccessToken(
-      { username, email,role }
+      {refreshToken}
     );
 
     // Set the refresh token in an HTTP-only cookie
@@ -31,26 +28,24 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     
-    return {
-      ...req.user,
-      accessToken
-    };
+    return accessToken;
   }
 
   @Get('status')
   @UseGuards(JwtAuthGuard)
   status(@Req() req: Request){
-    return(req.user);
+    return req.user
   }
 
-  @Get(`refresh`)
-  getSomething(@Req() req: Request){
-    const refreshToken = req.cookies;
-    console.log(refreshToken);
+  @Get('logout')
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('refreshToken');
+    return { message: 'Loggedout' };
   }
 
 
-  @Post('refresh-token')
+  @Post('refreshToken')
+  @UseGuards(JwtAuthGuard)
   async refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken = req.cookies['refreshToken'];
     console.log(refreshToken)
